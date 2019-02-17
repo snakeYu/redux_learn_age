@@ -1,23 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+// 引入顶级组件Provider,单词意思为：供应商  
+import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import reducer from './reducers/counter'
-import {increment,decrease} from './actions'
+import reducer from './reducers'
+
 import * as serviceWorker from './serviceWorker';
+// 创建store数据库
+const store=createStore(reducer);
 
-const store=createStore(reducer)
-store.subscribe(()=>console.log('state change',store.getState()))
 
-const render=()=>{
-  ReactDOM.render(<App 
-    onIncrement={()=>store.dispatch(increment())} 
-    onDecrease ={()=>store.dispatch(decrease())}
-    value={store.getState()}/>, document.getElementById('root'));
-}
-render()
-// subscribe用于监视,
-store.subscribe(render);
+
+ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  , document.getElementById('root'));
+
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
